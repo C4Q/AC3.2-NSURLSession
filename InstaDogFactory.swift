@@ -24,7 +24,28 @@ class InstaDogFactory {
         return [InstaDog]
     }
     
-    class func getInstaDogs(apiEndpoint: String, callback: @escaping ([InstaDog]?) -> Void) {
+    private func getResourceURL(from fileName: String) -> URL? {
+        
+        guard let dotRange = fileName.rangeOfCharacter(from: CharacterSet.init(charactersIn: ".")) else {
+            return nil
+        }
+        
+        let fileNameComponent: String = fileName.substring(to: dotRange.lowerBound)
+        let fileExtenstionComponent: String = fileName.substring(from: dotRange.upperBound)
+        
+        let fileURL: URL? = Bundle.main.url(forResource: fileNameComponent, withExtension: fileExtenstionComponent)
+        
+        return fileURL
+    }
+    
+    /// Gets the `Data` from the local file located at a specified `URL`
+    private func getData(from url: URL) -> Data? {
+        
+        let fileData: Data? = try? Data(contentsOf: url)
+        return fileData
+    }
+    
+    func getInstaDogs(apiEndpoint: String, callback: @escaping ([InstaDog]?) -> Void) {
         if let validInstaDogEndpoint: URL = URL(string: apiEndpoint) {
                 
             // 1. URLSession/Configuration

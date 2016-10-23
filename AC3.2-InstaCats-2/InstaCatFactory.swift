@@ -35,7 +35,7 @@ class InstaCatFactory {
     }
     
     
-    /// Gets the `URL` for a LOCAL file
+    /// Gets the `URL` for a file
     private func getResourceURL(from fileName: String) -> URL? {
         
         guard let dotRange = fileName.rangeOfCharacter(from: CharacterSet.init(charactersIn: ".")) else {
