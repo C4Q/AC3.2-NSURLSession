@@ -10,10 +10,13 @@ import UIKit
 
 
 /// Used to create `[InstaCat]`
+// More like a singleton usable app wide
 class InstaCatFactory {
-
+    
+    //Need to call manager
+    //Use it every time to use a singleton
     static let manager: InstaCatFactory = InstaCatFactory()
-    private init() {}
+    public init() {} //no public initializer
     
     
     /// Attempts to make `[InstaCat]` from the `Data` contained in a local file
@@ -33,6 +36,7 @@ class InstaCatFactory {
     
     
     /// Gets the `URL` for a local file
+    // The fileprivate change the scope of the file
     fileprivate func getResourceURL(from fileName: String) -> URL? {
         
         guard let dotRange = fileName.rangeOfCharacter(from: CharacterSet.init(charactersIn: ".")) else {
@@ -40,9 +44,9 @@ class InstaCatFactory {
         }
         
         let fileNameComponent: String = fileName.substring(to: dotRange.lowerBound)
-        let fileExtenstionComponent: String = fileName.substring(from: dotRange.upperBound)
+        let fileExtensionComponent: String = fileName.substring(from: dotRange.upperBound)
         
-        let fileURL: URL? = Bundle.main.url(forResource: fileNameComponent, withExtension: fileExtenstionComponent)
+        let fileURL: URL? = Bundle.main.url(forResource: fileNameComponent, withExtension: fileExtensionComponent)
         
         return fileURL
     }
@@ -92,5 +96,48 @@ class InstaCatFactory {
         
         return  nil
     }
+    
+    //func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
+    func getInstaCats(apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void){
+        if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
+            
+            // 1. URLSession/Configuration
+            let session = URLSession(configuration: URLSessionConfiguration.default)
+            
+            // 2. dataTaskWithURL
+            session.dataTask(with: validInstaCatEndpoint) { (data: Data?, response: URLResponse?, error: Error?) in
+                
+                // 3. check for errors right away
+                if error != nil {
+                    print("Error encountered!: \(error!)")
+                }
+                
+                // 4. printing out the data
+                if let validData: Data = data {
+                    print(validData)
+                    
+                    // 5. reuse our code to make some cats from Data
+                    //let allTheCats: [InstaCat]? = InstaCatFactory.manager.getInstaCats(from: validData)
+                    
+                    // 6. if we're able to get non-nil [InstaCat], set our variable and reload the data
+                    if let allTheCats: [InstaCat] = InstaCatFactory.manager.getInstaCats(from: validData) {
+                        
+                        print(allTheCats)
+                        callback(allTheCats)
+                        //print(self.instaCats)
+                        // update the UI by wrapping the UI-updating code inside of a DispatchQueue closure
+                        //self.instaCats = allTheCats
+                        //DispatchQueue.main.async {
+                        //self.tableView.reloadData()
+                        //}
+                    }
+                }
+                // 4a. ALSO THIS!
+                }.resume()
+            
+        }
+        //return nil
+    }
+    
     
 }
