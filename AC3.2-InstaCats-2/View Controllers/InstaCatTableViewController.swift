@@ -9,8 +9,8 @@
 import UIKit
 
 class InstaCatTableViewController: UITableViewController {
-    internal let instaCatJSONFileName: String = "InstaCats.json" //cat names etc.
-    internal let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw" //cat pix
+    internal let instaCatJSONFileName: String = "InstaCats.json" //local cat data
+    internal let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw" //remote cat data
     
     internal var instaCats: [InstaCat] = [] //stick our cat objects in this drawer which is currently empty
     
