@@ -10,7 +10,7 @@ import UIKit
 
 
 /// Used to create `[InstaCat]`
-class InstaCatFactory {
+class InstaCatFactory { // this is a singleton pattern, make instances of classes
 
     static let manager: InstaCatFactory = InstaCatFactory()
     private init() {}
