@@ -13,16 +13,28 @@ class InstaCatTableViewController: UITableViewController {
     internal let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw" //remote cat data
     
     internal var instaCats: [InstaCat] = [] //stick our cat objects in this drawer which is currently empty
-    
     internal let InstaCatTableViewCellIdentifier: String = "InstaCatCellIdentifier" //sign designating that this shelf is a cat shelf
 
-    internal let instaCatFactoryy = InstaCatFactory() //you give it JSON and it gives you cats
+    internal let instaCatFactory = InstaCatFactory() //you give it JSON and it gives you cats
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let instaCatsAll: [InstaCat] = InstaCatFactory.makeInstaCats(fileName: instaCatJSONFileName /*instaCatEndpoint*/) {
             self.instaCats = instaCatsAll //when the view loads up, churn out cats & put them in an array...if the Factory can accept the JSON we give it. If not, do nothing
+        }
+        
+        instaCatFactory.getInstaCats(apiEndpoint: instaCatEndpoint) { (instaCats: [InstaCat]?) in //here is the callback. 
+            if instaCats != nil { //if we have cats...
+                for cat in instaCats! { //for each individual cat
+                    print(cat.description) //print the cat's description to console. If nothing prints, we'll know it's because the array is still empty.
+                    
+                    DispatchQueue.main.async { //do this stuff out of sync and on the main thread
+                        self.instaCats = instaCats! //unwrap these cats no matter what
+                        self.tableView.reloadData() //present these cats in the view
+                    }
+                }
+            }
         }
     }
     
