@@ -14,14 +14,14 @@ class InstaCatTableViewController: UITableViewController {
     
     internal var instaCats: [InstaCat] = [] //stick our cat objects in this drawer which is currently empty
     
-    internal let InstaCatTableViewCellIdentifier: String = "InstaCatCellIdentifier" //sign for each cat shelf in view
+    internal let InstaCatTableViewCellIdentifier: String = "InstaCatCellIdentifier" //sign designating that this shelf is a cat shelf
 
     internal let instaCatFactoryy = InstaCatFactory() //you give it JSON and it gives you cats
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let instaCatsAll: [InstaCat] = InstaCatFactory.makeInstaCats(fileName: instaCatJSONFileName) {
+        if let instaCatsAll: [InstaCat] = InstaCatFactory.makeInstaCats(fileName: instaCatJSONFileName /*instaCatEndpoint*/) {
             self.instaCats = instaCatsAll //when the view loads up, churn out cats & put them in an array...if the Factory can accept the JSON we give it. If not, do nothing
         }
     }
