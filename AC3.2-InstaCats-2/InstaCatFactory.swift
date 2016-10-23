@@ -10,13 +10,14 @@ import UIKit
 
 //hey, you know, if this wasn't a darn singleton we could create two instances, one for cats and one for dogs
 //on the other hand, we could create a factory protocol that two different classes (cat and dog factories) conform to, and create some extensions to define the methods within, so we don't have to do so much of a copy-paste job when it comes time to make dogs
+//or...we could run the dog data through the catFactory. Which we are told very much not to do in the directions.
 
 
 /// Used to create `[InstaCat]`
 class InstaCatFactory {
 
     static let manager: InstaCatFactory = InstaCatFactory() //makes this a singleton -- only one instance of this can ever exist because of the static let
-    init() {}
+    private init() {}
     
     
     /// Attempts to make `[InstaCat]` from the `Data` contained in a local file
@@ -95,34 +96,32 @@ class InstaCatFactory {
         return  nil
     }
     
-    /// Creates `[InstaCat]` from valid REMOTE `Data`
-    func getInstaCats(apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
-        if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
-            
-            // 1. URLSession/Configuration
-            let session = URLSession(configuration: URLSessionConfiguration.default)
-            
-            // 2. dataTaskWithURL
-            session.dataTask(with: validInstaCatEndpoint) { (data: Data?, response: URLResponse?, error: Error?) in
-                
-                // 3. check for errors right away
-                if error != nil {
-                    print("Error encountered!: \(error!)")
-                }
-                
-                // 4. printing out the data
-                if let validData: Data = data {
-                    print(validData)
-                    
-                    // 5. reuse our code to make some cats from Data
-                    let allTheCats: [InstaCat]? = InstaCatFactory.manager.getInstaCats(from: validData)
-                    print("I'm super before")
-                    callback(allTheCats)
-                }
-                }.resume()
-            print("I'm super after")
-            
-        }
-    }
-    
+//    /// Creates `[InstaCat]` from valid REMOTE `Data`
+//    func getInstaCats(apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
+//        if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
+//            
+//            // 1. URLSession/Configuration
+//            let session = URLSession(configuration: URLSessionConfiguration.default)
+//            
+//            // 2. dataTaskWithURL
+//            session.dataTask(with: validInstaCatEndpoint) { (data: Data?, response: URLResponse?, error: Error?) in
+//                
+//                // 3. check for errors right away
+//                if error != nil {
+//                    print("Error encountered!: \(error!)")
+//                }
+//                
+//                // 4. printing out the data
+//                if let validData: Data = data {
+//                    print(validData)
+//                    
+//                    // 5. reuse our code to make some cats from Data
+//                    let allTheCats: [InstaCat]? = InstaCatFactory.manager.getInstaCats(from: validData)
+//                    print("I'm super before")
+//                    callback(allTheCats)
+//                }
+//            }.resume()
+//            print("I'm super after")
+//        }
+//    }
 }
