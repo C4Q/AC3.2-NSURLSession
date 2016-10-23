@@ -13,7 +13,7 @@ import UIKit
 class InstaCatFactory {
 
     static let manager: InstaCatFactory = InstaCatFactory()
-    private init() {}
+    init() {}
     
     
     /// Attempts to make `[InstaCat]` from the `Data` contained in a local file
@@ -33,7 +33,7 @@ class InstaCatFactory {
     
     
     /// Gets the `URL` for a local file
-    fileprivate func getResourceURL(from fileName: String) -> URL? {
+    private func getResourceURL(from fileName: String) -> URL? {
         
         guard let dotRange = fileName.rangeOfCharacter(from: CharacterSet.init(charactersIn: ".")) else {
             return nil
