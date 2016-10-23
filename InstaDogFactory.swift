@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+class InstaDogFactory {
+    
+    static let manager: InstaDogFactory = InstaDogFactory() 
+    private init() {} //no way to initialize this outside
+    
+    class func makeInstaDogs(apiEndpoint: String, callback: @escaping ([InstaDog]?) -> Void) {
+    
+    }
+    
+    internal func getInstaDogs(from jsonData: Data) -> [InstaDog]? {
+        
+        return [InstaDog]()
+    }
+}
