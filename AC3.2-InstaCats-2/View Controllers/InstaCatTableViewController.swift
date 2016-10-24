@@ -43,10 +43,12 @@ class InstaCatTableViewController: UITableViewController {
 						//							self.tableView.reloadData()
 						//						}
 						callback(instaCats)
+						print("\n\n\n\n\nCallback resolves\n\n\n\n\n")
 						
 					}
 				}
 				}.resume()
+			print("\n\n\n\n\nResume resolves\n\n\n\n\n")
 		}
 	}
 	
@@ -95,12 +97,28 @@ class InstaCatTableViewController: UITableViewController {
 		return self.instaCats.count
 	}
 	
+//	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//		let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
+//		
+//		cell.textLabel?.text = self.instaCats[indexPath.row].name
+//		cell.detailTextLabel?.text = self.instaCats[indexPath.row].description
+//		
+//		return cell
+//	}
+	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
+		let cell = tableView.dequeueReusableCell(withIdentifier: "InstaCatCellIdentifier", for: indexPath)
 		
-		cell.textLabel?.text = self.instaCats[indexPath.row].name
-		cell.detailTextLabel?.text = self.instaCats[indexPath.row].description
+		let currentCat = instaCats[indexPath.row]
+		
+		cell.textLabel?.text = currentCat.name
+		cell.detailTextLabel?.text = currentCat.description
 		
 		return cell
+	}
+	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		// UIApplication.shared.openURL(URL(string: String(describing: instaCats[indexPath.row].instagramURL))!)
+		UIApplication.shared.open(instaCats[indexPath.row].instagramURL)
 	}
 }
