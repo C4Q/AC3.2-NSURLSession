@@ -18,7 +18,7 @@ class InstaDogFactory {
     internal func makeInstaDogs(from jsonData: Data) -> [InstaDog]? {
         guard let instaDogsURL: URL = InstaDogFactory.manager.getResourceURL(from: fileName),
             let instaDogData: Data = InstaDogFactory.manager.getData(from: instaDogsURL),
-            let instaDogsAll: [InstaCat] = InstaDogFactory.manager.getInstaDogs(from: instaDogData) else {
+            let instaDogsAll: [InstaDog] = InstaDogFactory.manager.getInstaDogs(from: instaDogData) else {
                 return nil
         }
         return [InstaDog]

@@ -9,13 +9,24 @@
 import UIKit
 
 class InstaCatTableViewController: UITableViewController {
+    
+    //MARK: Cat setup
+    
     internal let instaCatJSONFileName: String = "InstaCats.json" //local cat data
     internal let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw" //remote cat data
-    
     internal var instaCats: [InstaCat] = [] //stick our cat objects in this drawer which is currently empty
     internal let InstaCatTableViewCellIdentifier: String = "InstaCatCellIdentifier" //sign designating that this shelf is a cat shelf
+    
+    //MARK: Dog setup
+    
+    internal let instaDogEndpoint: String = "https://api.myjson.com/bins/58n98" //remote dog data
+    internal var instaDogs: [InstaDog] = [] //stick our dog objects in this drawer which is currently empty
+    internal let InstaDogTableViewCellIdentifier: String = "InstaDogCellIdentifier" //sign designating that this shelf is a dog shelf
+    
+    //MARK: Both
+    
+    internal var sectionTitle = ["InstaCats", "InstaDogs"]
 
-    //internal let instaCatFactory = InstaCatFactory() //you give it JSON and it gives you cats
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +51,17 @@ class InstaCatTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 //one big shelving unit
+        return 2 //two shelving units
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.instaCats.count //make as many shelves as there are cats to shelf
+        if section == 0 {
+            return self.instaCats.count //in the first unit, make as many shelves as there are cats to shelf
+        } else if section == 1 {
+            return self.instaDogs.count //in the second unit, make as many shelves for dogs etc.
+        } else {
+            return 0 //XCode compiler insists on this else statement even though it seems unnecessary...
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { //how to make shelves
@@ -88,4 +105,8 @@ class InstaCatTableViewController: UITableViewController {
             print("I'm super after")
         }
     }
+    
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return sectionTitle[section]
+//    }
 }
