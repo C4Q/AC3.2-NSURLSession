@@ -69,23 +69,22 @@ class InstaCatTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
+        let cell: UITableViewCell = UITableViewCell()
         
-        switch indexPath.section {
-        case 0:
+        if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
             cell.textLabel?.text = self.instaCats[indexPath.row].name
             cell.detailTextLabel?.text = self.instaCats[indexPath.row].description
             return cell
-        case 1:
+        }
+        if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: InstaDogTableViewCellIdentifier, for: indexPath)
             let dog = self.instaDogs[indexPath.row]
             cell.textLabel?.text = dog.name
             cell.detailTextLabel?.text = dog.description
             return cell
-        default:
-            return UITableViewCell()
         }
+        return cell
     }
     
     
