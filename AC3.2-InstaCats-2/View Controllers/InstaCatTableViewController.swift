@@ -67,8 +67,15 @@ class InstaCatTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { //how to make shelves
         let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath) //our shelves are going to be of the instaCatTableViewCellIdentifier kind, and we are going to reuse them as we scroll up and down because they're all the same kind anyway
         
-        cell.textLabel?.text = self.instaCats[indexPath.row].name //the big text on the shelf is the cat's name
-        cell.detailTextLabel?.text = self.instaCats[indexPath.row].description //the little text on the shelf is the cat's description
+        if section == 0 {
+            cell.textLabel?.text = self.instaCats[indexPath.row].name //the big text on the shelf is the cat's name
+            cell.detailTextLabel?.text = self.instaCats[indexPath.row].description //the little text on the shelf is the cat's description
+        } else if section == 1 {
+            cell.textLabel?.text = self.instaDogs[indexPath.row].name //the big text on the shelf is the dog's name
+            cell.detailTextLabel?.text = self.instaDogs[indexPath.row].description //the little text on the shelf is the dog's description
+        } else {
+            //
+        }
         
         return cell //once we've set up our shelf, present it inside the shelving unit
     }
