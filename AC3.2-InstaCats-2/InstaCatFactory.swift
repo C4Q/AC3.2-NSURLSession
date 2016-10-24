@@ -8,11 +8,15 @@
 
 import UIKit
 
+//hey, you know, if this wasn't a darn singleton we could create two instances, one for cats and one for dogs
+//on the other hand, we could create a factory protocol that two different classes (cat and dog factories) conform to, and create some extensions to define the methods within, so we don't have to do so much of a copy-paste job when it comes time to make dogs
+//or...we could run the dog data through the catFactory. Which we are told very much not to do in the directions.
+
 
 /// Used to create `[InstaCat]`
 class InstaCatFactory {
 
-    static let manager: InstaCatFactory = InstaCatFactory()
+    static let manager: InstaCatFactory = InstaCatFactory() //makes this a singleton -- only one instance of this can ever exist because of the static let
     private init() {}
     
     
@@ -21,7 +25,6 @@ class InstaCatFactory {
     /// - returns: An array of `InstaCat` if the file is located and has properly formatted data. `nil` otherwise.
     class func makeInstaCats(fileName: String) -> [InstaCat]? {
         
-        // Everything from viewDidLoad in InstaCatTableViewController has just been moved here
         guard let instaCatsURL: URL = InstaCatFactory.manager.getResourceURL(from: fileName),
             let instaCatData: Data = InstaCatFactory.manager.getData(from: instaCatsURL),
             let instaCatsAll: [InstaCat] = InstaCatFactory.manager.getInstaCats(from: instaCatData) else {
@@ -32,31 +35,31 @@ class InstaCatFactory {
     }
     
     
-    /// Gets the `URL` for a local file
-    fileprivate func getResourceURL(from fileName: String) -> URL? {
+    /// Gets the `URL` for a file
+    private func getResourceURL(from fileName: String) -> URL? {
         
         guard let dotRange = fileName.rangeOfCharacter(from: CharacterSet.init(charactersIn: ".")) else {
             return nil
-        }
+        } //breaks up file's name into pieces
         
-        let fileNameComponent: String = fileName.substring(to: dotRange.lowerBound)
-        let fileExtenstionComponent: String = fileName.substring(from: dotRange.upperBound)
+        let fileNameComponent: String = fileName.substring(to: dotRange.lowerBound) //everything before the first period is the actual name of the file
+        let fileExtenstionComponent: String = fileName.substring(from: dotRange.upperBound) //everything after the first period is the file's extension or format
         
-        let fileURL: URL? = Bundle.main.url(forResource: fileNameComponent, withExtension: fileExtenstionComponent)
+        let fileURL: URL? = Bundle.main.url(forResource: fileNameComponent, withExtension: fileExtenstionComponent) //Swift needs the name to be broken up because this method takes the two parts as two separate parameters
         
         return fileURL
     }
     
-    /// Gets the `Data` from the local file located at a specified `URL`
+    /// Gets the `Data` from the LOCAL file located at a specified `URL`
     fileprivate func getData(from url: URL) -> Data? {
         
-        let fileData: Data? = try? Data(contentsOf: url)
+        let fileData: Data? = try? Data(contentsOf: url) //try to get the data and give us nil if we can't
         return fileData
     }
     
     
     // MARK: - Data Parsing
-    /// Creates `[InstaCat]` from valid `Data`
+    /// Creates `[InstaCat]` from valid LOCAL `Data`
     internal func getInstaCats(from jsonData: Data) -> [InstaCat]? {
         
         do {
@@ -93,4 +96,32 @@ class InstaCatFactory {
         return  nil
     }
     
+//    /// Creates `[InstaCat]` from valid REMOTE `Data`
+//    func getInstaCats(apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
+//        if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
+//            
+//            // 1. URLSession/Configuration
+//            let session = URLSession(configuration: URLSessionConfiguration.default)
+//            
+//            // 2. dataTaskWithURL
+//            session.dataTask(with: validInstaCatEndpoint) { (data: Data?, response: URLResponse?, error: Error?) in
+//                
+//                // 3. check for errors right away
+//                if error != nil {
+//                    print("Error encountered!: \(error!)")
+//                }
+//                
+//                // 4. printing out the data
+//                if let validData: Data = data {
+//                    print(validData)
+//                    
+//                    // 5. reuse our code to make some cats from Data
+//                    let allTheCats: [InstaCat]? = InstaCatFactory.manager.getInstaCats(from: validData)
+//                    print("I'm super before")
+//                    callback(allTheCats)
+//                }
+//            }.resume()
+//            print("I'm super after")
+//        }
+//    }
 }

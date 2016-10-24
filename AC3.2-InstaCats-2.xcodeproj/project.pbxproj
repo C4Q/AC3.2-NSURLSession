@@ -19,6 +19,8 @@
 		14CBA2F21DADA69F003A33FD /* InstaCat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2F11DADA69F003A33FD /* InstaCat.swift */; };
 		14CBA2F31DADA69F003A33FD /* InstaCat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2F11DADA69F003A33FD /* InstaCat.swift */; };
 		14CBA2F61DADA9FC003A33FD /* InstaCatFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2F51DADA9FC003A33FD /* InstaCatFactory.swift */; };
+		D35F2C971DBD5BAF00C19D82 /* InstaDogFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35F2C961DBD5BAF00C19D82 /* InstaDogFactory.swift */; };
+		D35F2C991DBD612D00C19D82 /* InstaDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35F2C981DBD612D00C19D82 /* InstaDog.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +48,8 @@
 		14CBA2EE1DADA2EE003A33FD /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test.json; path = "AC3.2-InstaCats-2Tests/test.json"; sourceTree = SOURCE_ROOT; };
 		14CBA2F11DADA69F003A33FD /* InstaCat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstaCat.swift; path = "AC3.2-InstaCats-2/Model/InstaCat.swift"; sourceTree = SOURCE_ROOT; };
 		14CBA2F51DADA9FC003A33FD /* InstaCatFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstaCatFactory.swift; path = "AC3.2-InstaCats-2/InstaCatFactory.swift"; sourceTree = SOURCE_ROOT; };
+		D35F2C961DBD5BAF00C19D82 /* InstaDogFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstaDogFactory.swift; sourceTree = SOURCE_ROOT; };
+		D35F2C981DBD612D00C19D82 /* InstaDog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstaDog.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +136,9 @@
 		14CBA2F41DADA6AA003A33FD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D35F2C981DBD612D00C19D82 /* InstaDog.swift */,
 				14CBA2F11DADA69F003A33FD /* InstaCat.swift */,
+				D35F2C961DBD5BAF00C19D82 /* InstaDogFactory.swift */,
 				14CBA2F51DADA9FC003A33FD /* InstaCatFactory.swift */,
 			);
 			name = Model;
@@ -247,7 +253,9 @@
 			files = (
 				14CBA2DD1DADA298003A33FD /* InstaCatTableViewController.swift in Sources */,
 				14CBA2F21DADA69F003A33FD /* InstaCat.swift in Sources */,
+				D35F2C971DBD5BAF00C19D82 /* InstaDogFactory.swift in Sources */,
 				14CBA2DB1DADA28C003A33FD /* AppDelegate.swift in Sources */,
+				D35F2C991DBD612D00C19D82 /* InstaDog.swift in Sources */,
 				14CBA2F61DADA9FC003A33FD /* InstaCatFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
