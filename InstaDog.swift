@@ -8,14 +8,6 @@
 
 import Foundation
 
-
-//name == "Men's Wear Dog")
-////                XCTAssertTrue(onlyInstaDog.dogID == 001)
-////                XCTAssertTrue(onlyInstaDog.instagramURL == URL(string: "https://www.instagram.com/mensweardog/")!)
-////                XCTAssertTrue(onlyInstaDog.imageName == "mens_wear_dog.jpg")
-////                XCTAssertTrue(onlyInstaDog.followers > 0)
-////                XCTAssertTrue(onlyInstaDog.following > 0)
-////                XCTAssertTrue(onlyInstaDog.numberOfPosts
 struct InstaDog{
     
     let name: String
