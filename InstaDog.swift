@@ -40,6 +40,6 @@ struct InstaDog {
 	}
 	
 	public var description: String {
-		return "Nice to meet you, I'm \(self.name)"
+		return "Posts: \(self.posts), Followers: \(self.followers), Following: \(self.following)"
 	}
 }

@@ -63,7 +63,7 @@ class InstaDogFactory {
 			
 			// Cast from Any and check for the "Dogs" key
 			guard let instaDogJSONCasted: [String : AnyObject] = instaDogJSONData as? [String : AnyObject],
-				let instaDogArray: [AnyObject] = instaDogJSONCasted["Dogs"] as? [AnyObject] else {
+				let instaDogArray: [AnyObject] = instaDogJSONCasted["dogs"] as? [AnyObject] else {
 					return nil
 			}
 			
@@ -71,7 +71,7 @@ class InstaDogFactory {
 			let name: String
 			let dogID: Int
 			let instagramURL: URL
-			let imageName: String
+			let imageName: URL
 			let followers: Int
 			let following: Int
 			let posts: Int
@@ -90,7 +90,7 @@ class InstaDogFactory {
 					// Some of these values need further casting
 					let instaDogID: Int = Int(instaDogIDString),
 					let instaDogInstagramURL: URL = URL(string: instaDogInstagramURLString),
-					let instaDogImageNameURL: URL = URL(string: instaDogImageNameURLString)
+					let instaDogImageNameURL: URL = URL(string: instaDogInstagramURLString+instaDogImageNameURLString)
 					else {
 						return
 				}
@@ -104,7 +104,6 @@ class InstaDogFactory {
 		catch let error as NSError {
 			print("Error occurred while parsing data: \(error.localizedDescription)")
 		}
-		
 		return  nil
 	}
 	
