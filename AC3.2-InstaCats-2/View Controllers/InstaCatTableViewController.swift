@@ -144,7 +144,6 @@ class InstaCatTableViewController: UITableViewController {
 		if section == 0 {
 			return instaCats.count
 		} else {
-			print("\n\n Dogs count: \(instaDogs.count)\n\n")
 			return instaDogs.count
 		}
 	}
@@ -175,7 +174,7 @@ class InstaCatTableViewController: UITableViewController {
 			
 			cell.textLabel?.text = currentDog.name
 			cell.detailTextLabel?.text = String(currentDog.description)
-//			cell.imageView?.image = 
+			cell.imageView?.image = UIImage(named: instaDogs[indexPath.row].imageName)
 			
 			return cell
 		}
@@ -192,6 +191,10 @@ class InstaCatTableViewController: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		// UIApplication.shared.openURL(URL(string: String(describing: instaCats[indexPath.row].instagramURL))!)
-		UIApplication.shared.open(instaCats[indexPath.row].instagramURL)
+		if indexPath.section == 0 {
+			UIApplication.shared.open(instaCats[indexPath.row].instagramURL)
+		} else {
+			UIApplication.shared.open(instaDogs[indexPath.row].instagramURL)
+		}
 	}
 }

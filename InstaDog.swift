@@ -24,12 +24,12 @@ struct InstaDog {
 	let name: String
 	let dogID: Int
 	let instagramURL: URL
-	let imageName: URL
+	let imageName: String
 	let followers: Int
 	let following: Int
 	let posts: Int
 	
-	init(name: String, id: Int, instagramURL: URL, imageName: URL, followers: Int, following: Int, posts: Int) {
+	init(name: String, id: Int, instagramURL: URL, imageName: String, followers: Int, following: Int, posts: Int) {
 		self.name = name
 		self.dogID = id
 		self.instagramURL = instagramURL

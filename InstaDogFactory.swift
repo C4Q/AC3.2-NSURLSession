@@ -82,21 +82,23 @@ class InstaDogFactory {
 				guard let instaDogName: String = instaDogObject["name"] as? String,
 					let instaDogIDString: String = instaDogObject["dog_id"] as? String,
 					let instaDogInstagramURLString: String = instaDogObject["instagram"] as? String,
-					let instaDogImageNameURLString: String = instaDogObject["imageName"] as? String,
+					let instaDogImageName: String = instaDogObject["imageName"] as? String,
 					let instaDogStats: [String:Any] = instaDogObject["stats"] as? [String:Any],
-					let instaDogFollowers: Int = instaDogStats["followers"] as? Int,
-					let instaDogFollowing: Int = instaDogStats["following"] as? Int,
-					let instaDogPosts: Int = instaDogStats["posts"] as? Int,
+					let instaDogFollowersString: String = instaDogStats["followers"] as? String,
+					let instaDogFollowingString: String = instaDogStats["following"] as? String,
+					let instaDogPostsString: String = instaDogStats["posts"] as? String,
 					// Some of these values need further casting
 					let instaDogID: Int = Int(instaDogIDString),
-					let instaDogInstagramURL: URL = URL(string: instaDogInstagramURLString),
-					let instaDogImageNameURL: URL = URL(string: instaDogInstagramURLString+instaDogImageNameURLString)
+					let instaDogFollowers: Int = Int(instaDogFollowersString),
+					let instaDogFollowing: Int = Int(instaDogFollowingString),
+					let instaDogPosts: Int = Int(instaDogPostsString),
+					let instaDogInstagramURL: URL = URL(string: instaDogInstagramURLString)
 					else {
 						return
 				}
 				
 				// append to our temp array
-				instaDogs.append(InstaDog(name: instaDogName, id: instaDogID, instagramURL: instaDogInstagramURL, imageName: instaDogImageNameURL, followers: instaDogFollowers, following: instaDogFollowing, posts: instaDogPosts))
+				instaDogs.append(InstaDog(name: instaDogName, id: instaDogID, instagramURL: instaDogInstagramURL, imageName: instaDogImageName, followers: instaDogFollowers, following: instaDogFollowing, posts: instaDogPosts))
 			})
 			
 			return instaDogs
