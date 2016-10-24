@@ -12,6 +12,7 @@ import UIKit
 /// Used to create `[InstaCat]`
 class InstaCatFactory {
 
+    //singleton
     static let manager: InstaCatFactory = InstaCatFactory()
     private init() {}
     
@@ -30,9 +31,9 @@ class InstaCatFactory {
         
         return instaCatsAll
     }
-    
-    
-    /// Gets the `URL` for a local file
+//
+//    
+//    /// Gets the `URL` for a local file
     fileprivate func getResourceURL(from fileName: String) -> URL? {
         
         guard let dotRange = fileName.rangeOfCharacter(from: CharacterSet.init(charactersIn: ".")) else {
@@ -53,8 +54,8 @@ class InstaCatFactory {
         let fileData: Data? = try? Data(contentsOf: url)
         return fileData
     }
-    
-    
+//
+//    
     // MARK: - Data Parsing
     /// Creates `[InstaCat]` from valid `Data`
     internal func getInstaCats(from jsonData: Data) -> [InstaCat]? {
