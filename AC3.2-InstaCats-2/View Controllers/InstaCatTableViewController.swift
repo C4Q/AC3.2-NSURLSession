@@ -34,6 +34,9 @@ class InstaCatTableViewController: UITableViewController {
                 }
             }
         }
+        if let instaCatsAll: [InstaCat] = InstaCatFactory.makeInstaCats(fileName: instaCatJSONFileName) {
+            self.instaCats = instaCatsAll
+        }
         
         getInstaDogs(from: instaDogEndpoint) { (dogs: [InstaDog]?) in
             if let goodDogs = dogs {
@@ -44,9 +47,8 @@ class InstaCatTableViewController: UITableViewController {
                 }
             }
         }
-        
-        if let instaCatsAll: [InstaCat] = InstaCatFactory.makeInstaCats(fileName: instaCatJSONFileName) {
-            self.instaCats = instaCatsAll
+        if let instaDogsAll: [InstaDog] = InstaDogFactory.makeInstaDogs(fileName: instaDogJSONFileName) {
+            self.instaDogs = instaDogsAll
         }
     }
     
@@ -56,22 +58,57 @@ class InstaCatTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.instaCats.count + self.instaDogs.count
+        switch section {
+        case 0:
+            return self.instaCats.count
+        case 1:
+            return self.instaDogs.count
+        default:
+            return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
+//        let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
         
-        cell.textLabel?.text = self.instaCats[indexPath.row].name
-        cell.detailTextLabel?.text = self.instaCats[indexPath.row].description
-        
-        cell.textLabel?.text = self.instaDogs[indexPath.row].name
-        cell.detailTextLabel?.text = self.instaDogs[indexPath.row].description
-        return cell
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
+            cell.textLabel?.text = self.instaCats[indexPath.row].name
+            cell.detailTextLabel?.text = self.instaCats[indexPath.row].description
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCell(withIdentifier: InstaDogTableViewCellIdentifier, for: indexPath)
+            let dog = self.instaDogs[indexPath.row]
+            cell.textLabel?.text = dog.name
+            cell.detailTextLabel?.text = dog.description
+            return cell
+        default:
+            return UITableViewCell()
+        }
     }
     
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "\(section)"
+        switch section {
+        case 0:
+            return "InstaCats"
+        case 1:
+            return "InstaDogs"
+        default:
+            return nil
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+         return UIApplication.shared.open(instaCats[indexPath.row].instagramURL)
+        case 1:
+             UIApplication.shared.open(instaDogs[indexPath.row].instagramURL)
+        default:
+            break
+        }
     }
     
     // MARK: - Getting the URL

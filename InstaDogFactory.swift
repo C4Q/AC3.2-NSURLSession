@@ -49,20 +49,28 @@ class InstaDogFactory {
                         instaDogObject["dog_id"] as? String,
                     let instaDogInstagramURLString: String =
                         instaDogObject["instagram"] as? String,
+                    let instaDogFollowers: String =
+                        instaDogObject["follower"] as? String,
+                    let instaDogFollowing: String =
+                        instaDogObject["following"] as? String,
+                    let instaDogPosts: String =
+                        instaDogObject["post"] as? String,
                     
                     let instaDogID: Int = Int(instaDogIDString),
                     let instaDogInstagramURL: URL = URL(string: instaDogInstagramURLString) else { return }
                 
-                instaDogs.append(InstaDog(name: instaDogName, id: instaDogID, instagramURL: instaDogInstagramURL))
+                instaDogs.append(InstaDog(name: instaDogName, id: instaDogID, instagramURL: instaDogInstagramURL, followers: instaDogFollowers, following: instaDogFollowing, posts: instaDogPosts))
             })
             return instaDogs
         }
-        catch let error as ESError {
+        catch let error as NSError {
             print("Error occurred while parsing Data:\(error.localizedDescription)")
         }
         return nil
     }
 }
+
+
 
 
 
