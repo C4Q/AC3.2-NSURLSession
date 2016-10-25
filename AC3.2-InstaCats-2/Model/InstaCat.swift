@@ -13,11 +13,12 @@ struct InstaCat {
     let catID: Int
     let instagramURL: URL
     
+    
     init(name: String, id: Int, instagramURL: URL) {
         self.name = name
         self.catID = id
         self.instagramURL = instagramURL
-    }
+        }
     
     public var description: String {
         return "Nice to me you, I'm \(self.name)"

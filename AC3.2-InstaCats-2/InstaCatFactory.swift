@@ -73,16 +73,18 @@ class InstaCatFactory {
                 guard let instaCatName: String = instaCatObject["name"] as? String,
                     let instaCatIDString: String = instaCatObject["cat_id"] as? String,
                     let instaCatInstagramURLString: String = instaCatObject["instagram"] as? String,
-                    
                     // Some of these values need further casting
                     let instaCatID: Int = Int(instaCatIDString),
                     let instaCatInstagramURL: URL = URL(string: instaCatInstagramURLString) else {
                         return
                 }
                 
+                
+                
                 // append to our temp array
                 instaCats.append(InstaCat(name: instaCatName, id: instaCatID, instagramURL: instaCatInstagramURL))
             })
+            
             
             return instaCats
         }
