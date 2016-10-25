@@ -41,7 +41,7 @@ class AC3_2_InstaCats_2Tests: XCTestCase {
     
     func testValidInstaCatDescription() {
         let testInstaCat: InstaCat = InstaCat(name: testName, id: testID, instagramURL: testURL)
-        let expectedDescription: String = "Nice to me you, I'm \(testName)"
+        let expectedDescription: String = "Nice to meet you, I'm \(testName)"
         
         XCTAssertTrue(testInstaCat.description == expectedDescription)
     }

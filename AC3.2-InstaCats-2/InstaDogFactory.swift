@@ -10,28 +10,28 @@ import UIKit
 
 
 /// Used to create `[InstaCat]`
-class InstaCatFactory {
+class InstaDogFactory {
     
-    internal let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw"
+    internal let instaDogEndpoint: String = "https://api.myjson.com/bins/58n98"
     
 
-    static let manager: InstaCatFactory = InstaCatFactory()
+    static let manager: InstaDogFactory = InstaDogFactory()
     init() {}
     
     
     /// Attempts to make `[InstaCat]` from the `Data` contained in a local file
     /// - parameter filename: The name of the file containing json-formatted data, including its extension in the name
     /// - returns: An array of `InstaCat` if the file is located and has properly formatted data. `nil` otherwise.
-    class func makeInstaCats(fileName: String) -> [InstaCat]? {
+    class func makeInstaDogs(fileName: String) -> [InstaDog]? {
         
         // Everything from viewDidLoad in InstaCatTableViewController has just been moved here
-        guard let instaCatsURL: URL = InstaCatFactory.manager.getResourceURL(from: fileName),
-            let instaCatData: Data = InstaCatFactory.manager.getData(from: instaCatsURL),
-            let instaCatsAll: [InstaCat] = InstaCatFactory.manager.getInstaCats(from: instaCatData) else {
+        guard let instaDogsURL: URL = InstaDogFactory.manager.getResourceURL(from: fileName),
+            let instaDogData: Data = InstaDogFactory.manager.getData(from: instaDogsURL),
+            let instaDogsAll: [InstaDog] = InstaDogFactory.manager.getInstaDogs(from: instaDogData) else {
                 return nil
         }
         
-        return instaCatsAll
+        return instaDogsAll
     }
     
     
@@ -60,34 +60,42 @@ class InstaCatFactory {
     
     // MARK: - Data Parsing
     /// Creates `[InstaCat]` from valid `Data`
-    internal func getInstaCats(from jsonData: Data) -> [InstaCat]? {
+    internal func getInstaDogs(from jsonData: Data) -> [InstaDog]? {
         
         do {
-            let instaCatJSONData: Any = try JSONSerialization.jsonObject(with: jsonData, options: [])
+            let instaDogJSONData: Any = try JSONSerialization.jsonObject(with: jsonData, options: [])
             
             // Cast from Any and check for the "cats" key
-            guard let instaCatJSONCasted: [String : AnyObject] = instaCatJSONData as? [String : AnyObject],
-                let instaCatArray: [AnyObject] = instaCatJSONCasted["cats"] as? [AnyObject] else {
+            guard let instaDogJSONCasted: [String : AnyObject] = instaDogJSONData as? [String : AnyObject],
+                let instaDogArray: [AnyObject] = instaDogJSONCasted["dogs"] as? [AnyObject] else {
                     return nil
             }
             
-            var instaCats: [InstaCat] = []
-            instaCatArray.forEach({ instaCatObject in
-                guard let instaCatName: String = instaCatObject["name"] as? String,
-                    let instaCatIDString: String = instaCatObject["cat_id"] as? String,
-                    let instaCatInstagramURLString: String = instaCatObject["instagram"] as? String,
-                    
+            var instaDogs: [InstaDog] = []
+            instaDogArray.forEach({ instaDogObject in
+                guard let instaDogName: String = instaDogObject["name"] as? String,
+                    let instaDogIDString: String = instaDogObject["dog_id"] as? String,
+                    let instaDogInstagramURLString: String = instaDogObject["instagram"] as? String,
+                    let instaDogImageName: String = instaDogObject["imageName"] as? String,
+                    let instaDogFollowers: Int = instaDogObject["followers"] as? Int,
+                    let instaDogFollowing: Int = instaDogObject["following"] as? Int,
+                    let instaDogPosts: Int = instaDogObject["posts"] as? Int,
                     // Some of these values need further casting
-                    let instaCatID: Int = Int(instaCatIDString),
-                    let instaCatInstagramURL: URL = URL(string: instaCatInstagramURLString) else {
+                    let instaDogID: Int = Int(instaDogIDString),
+                    let instaDogInstagramURL: URL = URL(string: instaDogInstagramURLString)
+                
+                    else {
                         return
                 }
                 
+        
+                
                 // append to our temp array
-                instaCats.append(InstaCat(name: instaCatName, id: instaCatID, instagramURL: instaCatInstagramURL))
+                instaDogs.append(InstaDog(name: instaDogName, id: instaDogID, instagramURL: instaDogInstagramURL, imageName: instaDogImageName, followers: instaDogFollowers, following: instaDogFollowing, posts: instaDogPosts))
             })
             
-            return instaCats
+            
+            return instaDogs
         }
         catch let error as NSError {
             print("Error occurred while parsing data: \(error.localizedDescription)")
@@ -96,14 +104,14 @@ class InstaCatFactory {
         return  nil
     }
     
-    func getInstaCats(apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
-        if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
+    func getInstaDogs(apiEndpoint: String, callback: @escaping ([InstaDog]?) -> Void) {
+        if let validInstaDogEndpoint: URL = URL(string: apiEndpoint) {
             
             // 1. URLSession/Configuration
             let session = URLSession(configuration: URLSessionConfiguration.default)
             
             // 2. dataTaskWithURL
-            session.dataTask(with: validInstaCatEndpoint) { (data: Data?, response: URLResponse?, error: Error?) in
+            session.dataTask(with: validInstaDogEndpoint) { (data: Data?, response: URLResponse?, error: Error?) in
                 
                 // 3. check for errors right away
                 if error != nil {
@@ -115,12 +123,12 @@ class InstaCatFactory {
                     print(validData)
                     
                     // 5. reuse our code to make some cats from Data
-                    let allTheCats: [InstaCat]? = InstaCatFactory.manager.getInstaCats(from: validData)
-                    print("I'm super before")
-                    callback(allTheCats)
+                    let allTheDogs: [InstaDog]? = InstaDogFactory.manager.getInstaDogs(from: validData)
+                  
+                    callback(allTheDogs)
                 }
                 }.resume()
-            print("I'm super after")
+            
             
         }
     }

@@ -20,6 +20,6 @@ struct InstaCat {
     }
     
     public var description: String {
-        return "Nice to me you, I'm \(self.name)"
+        return "Nice to meet you, I'm \(self.name)"
     }
 }

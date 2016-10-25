@@ -1,0 +1,13 @@
+{
+    
+    
+"dogs":[
+        {"dog_id":"001","name":"Men's Wear Dog","instagram":"https://www.instagram.com/mensweardog/","imageName":"mens_wear_dog.jpg","stats":
+        {"followers":"283091","following":"269","posts":"518"}},
+        {"dog_id":"002","name":"Marutaro","instagram":"https://www.instagram.com/marutaro/","imageName":"maru.jpg","stats":
+        {"followers":"2503244","following":"537","posts":"6313"}}\,
+        {"dog_id":"003","name":"dearbeta","instagram":"https://www.instagram.com/dearbeta/","imageName":"dearbeta.jpg","stats":{"followers":"47323","following":"133","posts":"933"}}
+        
+        ]
+
+}
