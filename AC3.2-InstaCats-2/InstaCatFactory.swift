@@ -16,45 +16,6 @@ class InstaCatFactory {
     private init() {}
     
     
-    /// Attempts to make `[InstaCat]` from the `Data` contained in a local file
-    /// - parameter filename: The name of the file containing json-formatted data, including its extension in the name
-    /// - returns: An array of `InstaCat` if the file is located and has properly formatted data. `nil` otherwise.
-    class func makeInstaCats(fileName: String) -> [InstaCat]? {
-        
-        // Everything from viewDidLoad in InstaCatTableViewController has just been moved here
-        guard let instaCatsURL: URL = InstaCatFactory.manager.getResourceURL(from: fileName),
-            let instaCatData: Data = InstaCatFactory.manager.getData(from: instaCatsURL),
-            let instaCatsAll: [InstaCat] = InstaCatFactory.manager.getInstaCats(from: instaCatData) else {
-                return nil
-        }
-        
-        return instaCatsAll
-    }
-    
-    
-    /// Gets the `URL` for a local file
-    fileprivate func getResourceURL(from fileName: String) -> URL? {
-        
-        guard let dotRange = fileName.rangeOfCharacter(from: CharacterSet.init(charactersIn: ".")) else {
-            return nil
-        }
-        
-        let fileNameComponent: String = fileName.substring(to: dotRange.lowerBound)
-        let fileExtenstionComponent: String = fileName.substring(from: dotRange.upperBound)
-        
-        let fileURL: URL? = Bundle.main.url(forResource: fileNameComponent, withExtension: fileExtenstionComponent)
-        
-        return fileURL
-    }
-    
-    /// Gets the `Data` from the local file located at a specified `URL`
-    fileprivate func getData(from url: URL) -> Data? {
-        
-        let fileData: Data? = try? Data(contentsOf: url)
-        return fileData
-    }
-    
-    
     // MARK: - Data Parsing
     /// Creates `[InstaCat]` from valid `Data`
     internal func getInstaCats(from jsonData: Data) -> [InstaCat]? {

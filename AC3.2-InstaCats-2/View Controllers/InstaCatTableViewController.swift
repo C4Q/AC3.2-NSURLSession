@@ -21,25 +21,21 @@ class InstaCatTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "InstaPets"
         
-        InstaDogFactory.manager.makeInstaDogs(from: instaDogEndpoint) { (dogs: [InstaDog]?) in
+        InstaDogFactory.manager.makeInstaDogs(from: self.instaDogEndpoint) { (dogs: [InstaDog]?) in
             if let goodDogs = dogs {
                 self.instaDogs = goodDogs
-                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
-            }
-        }
         
-        
-        InstaCatFactory.manager.getInstaCatsTwo(from: instaCatEndpoint) { (cats: [InstaCat]?) in
+        InstaCatFactory.manager.getInstaCatsTwo(from: self.instaCatEndpoint) { (cats: [InstaCat]?) in
             if let goodCats = cats {
                 self.instaCats = goodCats
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                        DispatchQueue.main.async {
+                            self.tableView.reloadData()
+                        }
+                    }
                 }
             }
         }
@@ -61,16 +57,28 @@ class InstaCatTableViewController: UITableViewController {
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
+        if instaDogs.count>0 && instaCats.count>0 {
+        
         return 2
+    }
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return instaCats.count
+        switch section {
+        case 0:
+            return instaCats.count
+        case 1:
+            return instaDogs.count
+        default:
+            break
+        }
+        
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: InstaCatTableViewCellIdentifier, for: indexPath)
+        let cell: UITableViewCell = UITableViewCell()
         
         if indexPath.section == 0 {
         cell.textLabel?.text = self.instaCats[indexPath.row].name
@@ -78,7 +86,7 @@ class InstaCatTableViewController: UITableViewController {
         return cell
         }
         if indexPath.section == 1 {
-            //let cell = tableView.dequeueReusableCell(withIdentifier: InstaDogTableViewCellIdentifier, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: InstaDogTableViewCellIdentifier, for: indexPath)
             cell.textLabel?.text = self.instaDogs[indexPath.row].name
             cell.detailTextLabel?.text = self.instaDogs[indexPath.row].formattedStats()
             cell.imageView?.image = self.instaDogs[indexPath.row].profileImage()
