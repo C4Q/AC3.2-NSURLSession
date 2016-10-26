@@ -39,27 +39,22 @@ class InstaDogFactory {
         do {
             let instaDogJSONData: Any = try JSONSerialization.jsonObject(with: jsonData, options: [])
             guard let instaDogJSONCasted: [String : AnyObject] = instaDogJSONData as? [String: AnyObject],
-                let instaDogArray: [AnyObject] = instaDogJSONCasted["dogs"] as? [AnyObject] else { return nil }
+                let instaDogArray: [[String:AnyObject]] = instaDogJSONCasted["dogs"] as? [[String:AnyObject]] else { return nil }
             
             var instaDogs: [InstaDog] = []
             instaDogArray.forEach({ instaDogObject in
-                guard let instaDogName: String =
-                        instaDogObject["name"] as? String,
-                    let instaDogIDString: String =
-                        instaDogObject["dog_id"] as? String,
-                    let instaDogInstagramURLString: String =
-                        instaDogObject["instagram"] as? String,
-                    let instaDogFollowers: String =
-                        instaDogObject["follower"] as? String,
-                    let instaDogFollowing: String =
-                        instaDogObject["following"] as? String,
-                    let instaDogPosts: String =
-                        instaDogObject["post"] as? String,
+                guard let instaDogName: String = instaDogObject["name"] as? String,
+                    let instaDogIDString: String = instaDogObject["dog_id"] as? String,
+                    let instaDogInstagramURLString: String = instaDogObject["instagram"] as? String,
+                    let instaDogImageNameString: String = instaDogObject["imageName"] as? String,
+                    let instaDogFollowers: String = instaDogObject["stats"]?["followers"] as? String,
+                    let instaDogFollowing: String = instaDogObject["stats"]?["following"] as? String,
+                    let instaDogPosts: String = instaDogObject["stats"]?["posts"] as? String,
                     
                     let instaDogID: Int = Int(instaDogIDString),
                     let instaDogInstagramURL: URL = URL(string: instaDogInstagramURLString) else { return }
                 
-                instaDogs.append(InstaDog(name: instaDogName, id: instaDogID, instagramURL: instaDogInstagramURL, followers: instaDogFollowers, following: instaDogFollowing, posts: instaDogPosts))
+                instaDogs.append(InstaDog(name: instaDogName, id: instaDogID, instagramURL: instaDogInstagramURL, imageName: instaDogImageNameString, followers: instaDogFollowers, following: instaDogFollowing, posts: instaDogPosts))
             })
             return instaDogs
         }

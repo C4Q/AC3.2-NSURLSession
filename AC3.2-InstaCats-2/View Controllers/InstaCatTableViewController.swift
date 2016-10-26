@@ -82,6 +82,7 @@ class InstaCatTableViewController: UITableViewController {
             let dog = self.instaDogs[indexPath.row]
             cell.textLabel?.text = dog.name
             cell.detailTextLabel?.text = dog.description
+//            cell.imageView?.image = dog.dogthumbnail()
             return cell
         }
         return cell
