@@ -86,11 +86,15 @@ class InstaCatParser {
 ---
 ### 2. The Internet and the Universality of URLs
 
-Start out by adding the following line to your tableviewcontroller:
+Start out by adding the following line to the top of your `InstaCatTableViewController`:
+
 ```swift
   internal let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw"
 ```
+
 (Plug in the URL into your browser too, just to see what comes up)
+
+> Note: If the above URL isn't working, use: 
 
 A fundamental principal in computer systems architecture is coming to the understanding that the "internet" is just a lot of interconnected computers. And what I mean by that is, every image you've ever viewed, every video you've ever watched, and every website you've visited are files that live on someone else's computer, that you were accessing with your own. 
 
