@@ -463,7 +463,7 @@ Just because I like cats (like, I *really* like them), doesn't meaan you should 
 1. Look at the content in `https://api.myjson.com/bins/58n98`
   - Or if the above isn't working, at `https://raw.githubusercontent.com/C4Q/AC3.2-NSURLSession/master/Resources/JSON/instadog.json`
 2. Create a new model `struct InstaDog`
-  - Refer to your tests for the properties and functions `InstaDog` should have
+  - Refer to your tests for the properties and functions `InstaDog` should have (uncomment test code where relevant)
 3. Create a new class `class InstaDogParser` modeled after `InstaCatParser`
   - This class will have two functions:
     1. `func makeInstaDogs(apiEndpoint: String, callback: @escaping ([InstaDog]?) -> Void)`
