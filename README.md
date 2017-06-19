@@ -5,21 +5,23 @@
 1. [`URLSession` - Apple](https://developer.apple.com/reference/foundation/urlsession) (just the "Overview section for now")
 2. [Move from NSURLConnection to Session - Objc.io](https://www.objc.io/issues/5-ios7/from-nsurlconnection-to-nsurlsession/)
 3. [Fundamentals of Callbacks for Swift Developers](https://www.andrewcbancroft.com/2016/02/15/fundamentals-of-callbacks-for-swift-developers/)
-4. [Concurrency - Wiki](https://en.wikipedia.org/wiki/Concurrency_%28computer_science%29)
 5. [Concurrency - Objc.io](https://www.objc.io/issues/2-concurrency/concurrency-apis-and-pitfalls/)
 6. [Concurrency’s relation to Async Network requests (scroll down)](https://www.objc.io/issues/2-concurrency/common-background-practices/)
-7. [Great talk on networking - Objc.io](https://talk.objc.io/episodes/S01E01-networking) (a bit advanced! uses flatmap, generics, computed properties and closure as properties) 
 8. [Singletons in Swift - Thomas Hanning](http://www.thomashanning.com/singletons-in-swift/)
 
-#### Further Reading in Singletons (read the above one first though):
+#### Singletons (Optional):
 1. [Singletons - That Thing in Swift](https://thatthinginswift.com/singletons/)
 2. [The Right Way to Write a Singleton - krakendev](http://krakendev.io/blog/the-right-way-to-write-a-singleton) (gives a nice short history of writing singletons in objc and swift. then shows you how/why they are truly "single". This blog in general is a really good resource worth bookmarking)
+
+#### Advandced:
+1. [Great talk on networking - Objc.io](https://talk.objc.io/episodes/S01E01-networking) (a bit advanced! uses flatmap, generics, computed properties and closure as properties) 
+2. [Concurrency - Wiki](https://en.wikipedia.org/wiki/Concurrency_%28computer_science%29)
 
 ### Reference:
 2. [`URL` - Apple](https://developer.apple.com/reference/foundation/url) 
 4. [`JSONSerialization` - Apple](https://developer.apple.com/reference/foundation/jsonserialization)
 
-### Neat Resources:
+### Resources:
 1. [`myjson` - simple JSON hosting](http://myjson.com/)
 2. [`JSONlint` - json format validation](http://jsonlint.com/)
 
@@ -33,31 +35,53 @@
 ---
 ### 1. Focusing on the MVC Pattern
 
-In MVC a (view) controller is only meant to coordinate data in the model and use that to update its views. In the first part of this lesson, we put all of our code inside of our main view controller class. This lesson begins with the same code we wrote, but arranged differently:
+In MVC a (view) controller is only meant to coordinate data from the model and use that to update its views. In the first part of this lesson ([AC3.2-NSURL](https://github.com/C4Q/AC3.2-NSURL)), we put all of our code inside of our main view controller class. This lesson begins with that same base code, but we're going to refactor it so that we follow MVC principles. 
 
-1. The `InstaCat` struct has been moved into its own file
-2. The code used to retrieve `URL` info and parse `Data` into `InstaCat` has been moved into its own class, `InstaCatFactory`
-3. `InstaCatFactory` communicates publicly through the class function `makeInstaCats(fileName:)`, which accepts a `String` parameter that represents the name of the file that contains our `json`
-  4. Since we want to treat our factory as a "black box", we make some of the functions we used last time to be `fileprivate`, meaning the scope of those functions are limited to the `.swift` file they are in. 
-  
+> Instructions: Follow the steps below in order to refactor your code. Make sure that your tests still pass after you've made your changes.
 
-> #### *The more you know*: The Singleton
-> You may notice that `InstaCatFactory` is using something you haven't seen before: 
+1. Create a separate `InstaCat.swift` file, and move the code for the `InstaCat` model there
+2. Create a 
+2. Create another file `InstaCatParser.swift` which will be tasked with taking a `URL` and parsing out `[InstaCat]`
+3. Add the following template and fill out your functions using the code you wrote for `NSURL`
+
 ```swift
-  // this is called a "singleton"
-  static let manager: InstaCatFactory = InstaCatFactory()
-  private init() {}
+class InstaCatParser {
+    init(){}
+    
+    // get an URL from String
+    func getResourceURL(from fileName: String) -> URL? {
+        
+        return nil
+    }
+    
+    // get Data from file located at URL
+    func getData(from url: URL) -> Data? {
+        
+        return nil
+    }
+    
+    // parse Data into InstaCats
+    func parseInstaCats(from data: Data) -> [InstaCat]? {
+        
+        return nil
+    }
+}
 ```
-> The goal of a singleton is that there only is ever one of them that exists in the lifetime of your app. The line `private init(){}` makes it so that you cannot initialize the class anywhere outside of itself. Go ahead, try create an instance of `InstaCatFactory` inside of the `InstaCatTableViewController` like so `let instaFactory: InstaCatFactory = InstaCatFactory`. You will not be allowed to do so! In effect, if you want to use an instance of `InstaCatFactory` you *have* to reference it's `manager` property. Singletons work well for managing data in simple apps, but can cause problems in more complex situations.
 
+#### Exercises
 
-Now, in our table view controller's `viewDidLoad` we replace our previous code with:
-```swift
-      // In the MVC design architecture, a view controller should only coordinate model data to the views
-      if let instaCatsAll: [InstaCat] = InstaCatFactory.makeInstaCats(fileName: instaCatJSONFileName) {
-          self.instaCats = instaCatsAll
-      }
-```
+1. The point of the `InstaCatParser` is that it is going to handle all parsing of `InstaCats`. Create a single function called `func parseCats(from: String) -> [InstaCat]?` that calls the other three functions at once. This will be a convenience function to get us from a `String` representation of a file URL all the way to our desired `[InstaCat]`
+2. Can you think of a way to ensure that only `parseCats(from:)` can ever be called? Why would this be advantageous to use?
+3. Rewrite the code inside of `InstaCatTableViewController.viewDidLoad` to make use of `parseCats(from:)`
+
+#### Advanced
+
+1. Adjust the `InstaCatParser` to use a singleton. Future calls to the parser should then look like `InstaCatParser.shared.<function>`
+  - Update your code in `InstaCatTableViewController.viewDidLoad` and elsewhere to work with this singleton.
+ 
+> #### *Review*: The Singleton
+> The goal of a singleton is that there only is ever one of them that exists in the lifetime of your app. Singletons work well for managing data in simple apps, but can cause problems in more complex situations.
+
 
 ---
 ### 2. The Internet and the Universality of URLs
