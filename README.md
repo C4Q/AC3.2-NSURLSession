@@ -33,7 +33,9 @@
   - Reusuability of code makes building something up to the point much easier as we can reuse the same parsing function from the prior lesson here. 
 
 ---
-### 1. Focusing on the MVC Pattern
+### 1. Getting InstaCats Locally
+
+#### Focusing on the MVC Pattern
 
 In MVC a (view) controller is only meant to coordinate data from the model and use that to update its views. In the first part of this lesson ([AC3.2-NSURL](https://github.com/C4Q/AC3.2-NSURL)), we put all of our code inside of our main view controller class. This lesson begins with that same base code, but we're going to refactor it so that we follow MVC principles. 
 
@@ -89,27 +91,45 @@ class InstaCatParser {
 Start out by adding the following line to the top of your `InstaCatTableViewController`:
 
 ```swift
-  internal let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw"
+  let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw"
 ```
 
 (Plug in the URL into your browser too, just to see what comes up)
 
-> Note: If the above URL isn't working, use: 
+> Note: If the above URL isn't working, use: `https://raw.githubusercontent.com/C4Q/AC3.2-NSURLSession/master/Resources/JSON/instacat.json`
 
-A fundamental principal in computer systems architecture is coming to the understanding that the "internet" is just a lot of interconnected computers. And what I mean by that is, every image you've ever viewed, every video you've ever watched, and every website you've visited are files that live on someone else's computer, that you were accessing with your own. 
+A fundamental principal in computer systems architecture is that the *"internet"* is just a lot of interconnected computers. Every image you've ever viewed, every video you've ever watched, and every website you've visited *are files that live on someone else's computer*, that you were accessing with your own. 
 
-That's why when you plug in that URL into a browser, you're seeing exactly what you would see in a file called `254uw.json` if it lived on your computer. A URL describes where a file is, whether that's on your computer or on someone else's on the internet. In this case, there is a service called "myjson" that hosts json files that you create. The one we're looking as is one that I made using the same data/file as `InstaCat.json`
+That's why when you plug in that previous URL into a browser, you're seeing exactly what you would see in a file called `254uw.json` if it lived on your computer. A URL describes where a file is, whether that's on your computer or on someone else's on the internet. In this case, there is a service called **myjson** that hosts json files that you create. The one we're looking at is one that I made using the exact same data/file as `InstaCat.json`
 
-> In fact, if you located the `InstaCat.json` file that lives on your computer and dragged it into your browser window, the address bar would change to the URL of the file's local address, and you'd see the same data. 
+> In fact, if you located the `InstaCat.json` file that lives on your computer and dragged it into your browser window, the address bar would change to the URL of the file's local address, and you'd see the same data. The url would look something like `file:///Users/<your_user>/<path>/<to>/AC3.2-NSURLSession/Resources/JSON/instacat.json`. Notice how it says `file://` instead of `http://`!
 
+
+
+
+> ***************************************************************************************************************
 To locate files in our application's bundle we used `Bundle.main` to query for the data at a **local** `URL`. 
 
 To locate a file on the internet, we need to use `URLSession` to query for the data at a **remote** `URL`. 
+> ***************************************************************************************************************
+
+
+
+
 
 ---
-### 3. URLSession 
+### 3. Getting `InstaCats` from the Web
+
+#### Making a `URLRequest` with `URLSession` 
+
+What actually happens when you entered that myJson `URL` into your browser? 
+
+Your browser sends what's known as a `GET` *request* to `https://api.myjson.com`. A `GET` request indicates that you're looking to **get** something from the `URL` you're requesting. The `GET` request we send contains more specific information: because we're interested in *getting* a specific set of json, we pass in two more path components: `/bins` and `/254uw`. If the request can be fulfilled by the receiving website, a response is returned corresponding to either the data we were looking for or an error describing what went wrong with the request. 
+
+Let's take a look at how we can make a request to `api.myjson.com`:
 
 To our `InstaCatTableViewController`, add 
+
 ```swift
     func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
       if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
@@ -119,8 +139,9 @@ To our `InstaCatTableViewController`, add
     }
 ```
 
-Every web request begins with a `URLSession`, which gets instatiated with a specified `URLSessionConfiguration`. 
-  - For our purposes, we will only ever use `URLSessionConfiguration.default`
+Every web request begins with a `URLSession`, which gets instantiated with a specified `URLSessionConfiguration`. For our purposes, we will only ever use `URLSessionConfiguration.default`. 
+
+> Note: Connecting to sites in order to send or receive data is known broadly as a *session*, which is why the class that manages *making requests* and *receiving responses* is called `URLSession`. 
 
 ```swift
 func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
@@ -132,6 +153,7 @@ func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
   
 }
 ```
+
 
 We then use the `dataTask(with:)` method of `URLSession` to initiate our request
 
@@ -149,6 +171,7 @@ func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
   }
 }
 ```
+
 >  Why all the optionals in `dataTask(with:)`? Well, you might not get `Data` back if the request is bad, you might not get a response if the internet is down, or you might not get an `Error` is everything goes right.
 
 
@@ -200,9 +223,10 @@ func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
   }.resume()
 }
 ```
+
 You're almost always going to forget to add `.resume()` at first and until you call it, the `dataTask` won't actually execute. 
 
-Anyhow that doesn't give us much information as the data is still in its raw encoded form. Now, in theory the `Data` we're getting back is *exactly* the same at if we were accessing the data from `InstaCat.json`... soo... 
+Anyhow that doesn't give us much information as the data is still in its raw encoded form. Now, in theory the `Data` we're getting back is *exactly* the same at if we were accessing the data from `InstaCat.json`. soo... 
 
 ```swift
 func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
@@ -224,7 +248,8 @@ func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
         print(validData)
         
           // 5. reuse our code to make some cats from Data
-          let allTheCats: [InstaCat]? = InstaCatFactory.manager.getInstaCats(from: validData)
+          let allTheCats: [InstaCat]? = InstaCatParser().parseInstaCats(from: validData)
+          print("All the cats!! \(String(describing: allTheCats))")
       }
     }
     
@@ -233,15 +258,35 @@ func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
 }
 ```
 
-Now, we just need to return the `[InstaCats]` with `return allTheCats`...
+Go ahead and call `getInstaCats(from:)` from `viewDidLoad` and make sure it prints out some data!
+
+```swift 
+    let instaCatEndpoint: String = "https://api.myjson.com/bins/254uw"
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // if let instaCatsAll: [InstaCat] = InstaCatParser().parseCats(from: instaCatJSONFileName) {
+        //     self.instaCats = instaCatsAll
+        // }
+        
+        _ = self.getInstaCats(from: instaCatEndpoint)
+    }
+```
+
+> Image of output
+
+Ok, let's now have our code return the [InstaCats] we've created just as we did in the (now) commented out code: `let instaCatsAll: [InstaCat] = InstaCatParser().parseCats(from: instaCatJSONFileName)`. Update `getInstaCats(from:)` to return `allTheCats`...
 
 ![Non-void return error](http://imgur.com/9z1Zls4l.png)
 
-`Unexpected non-void return value in void function`
+> error: `Unexpected non-void return value in void function`
 
-Almost. 
+#### Almost. 
 
-Hmm, ok look like we can't `return` from this block because the functions signature isn't expecting it. We're going to need to make some changes to the function to have it function correctly. For one, we can remove the `return` value and just do our updating work in the tableview controller directly.
+We can't `return` from this block because `dataTask(with:completionHandler:)` has a function type of `(URL, (Data?, Response, Error)->()) -> ()`, so it isn't expected to return anything. 
+
+We're going to need to make some changes to the function to have it function correctly. The simplest is to remove the `return` value and just do our UI updating work in the tableview controller directly.
 
 ```swift
   func getInstaCats(from apiEndpoint: String) { // <<< returns Void
@@ -263,9 +308,11 @@ Hmm, ok look like we can't `return` from this block because the functions signat
         print(validData)
         
         // 5. reuse our code to make some cats from Data
-        
+        // let allTheCats: [InstaCat]? = InstaCatParser().parseInstaCats(from: validData)
+        print("All the cats!! \(String(describing: allTheCats))")
+
         // 6. if we're able to get non-nil [InstaCat], set our variable and reload the data
-        if let allTheCats: [InstaCat] = InstaCatFactory.manager.getInstaCats(from: validData) {
+        if let allTheCats: [InstaCat] = InstaCatParser().parseInstaCats(from: validData) {
           self.instaCats = allTheCats
           self.tableView.reloadData()
         }
@@ -280,6 +327,7 @@ And lastly, add this to `viewDidLoad`:
 ```swift
   self.getInstaCats(from: instaCatEndpoint)
 ```
+
 Rerun the project... Awesome! The data printed out to console.. but nothing showed up in our table view? You just met one of the biggest issues you'll encounter with network calls: updating your UI when your data is ready. Here's the most common way to update your UI following a network request:
 
 ```swift
@@ -289,12 +337,12 @@ Rerun the project... Awesome! The data printed out to console.. but nothing show
     }
 ```
 
-**For now, just know that this is what you need to do: wrap up your UI-updating code in `DispatchQueue.main.async`**
+**If you aren't familiar with `DispatchQueue` yet, just know that you need to wrap up your UI-updating code in `DispatchQueue.main.async`**
 
 All should be well now: your request is made, data is retrieved and your tableview's UI reloads. But you might be left with some questions:
 
-1. Why didn't we follow the MVC design pattern and put this in `[InstaCatFactory]`?
-  2. If we do move this into `[InstaCatFactory]`, how do we get the `[InstaCat]` array to the table view controller if we can't return a value?
+1. Why didn't we follow the MVC design pattern and put this calling code in `InstaCatParser`?
+2. If we do move this into `InstaCatParser`, how do we get the `[InstaCat]` array to the table view controller if we can't return a value from `getInstaCats(from:)`
 3. Why do we need to update the UI in such a special manner? 
 
 ---
