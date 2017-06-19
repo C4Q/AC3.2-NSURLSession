@@ -444,7 +444,7 @@ Our newest addition to the `getInstaCats` function, our `@escaping` closure, ens
 
 
 #### Visualization of the callback closure lifecycle
-![Closure Lifecycle](./Resources/Images/escaping_explained.png)
+![Closure Lifecycle](./Resources/Images/escaping_explained.jpg)
 
 ---
 ### 5. Exercise
