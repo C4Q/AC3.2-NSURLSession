@@ -356,7 +356,7 @@ For example, if you need to cook a pasta dish you could follow these broard inst
 2. **Wait**
 3. When it starts boiling, add the pasta
 4. **Wait**
-5. Strain the pasta when its done cooking
+5. Strain the pasta when it is done cooking
 
 But doing things one after another like this, referred to as _serial_ execution, would take a very long time, despite the guarantee that everything necessary will be done by a certain time. Not only would it take a long time, there would be stretches of time where you were doing _nothing_... just standing there, staring at a pot of water. A much more efficient way of doing is through doing _concurrent_ operations:
 
@@ -370,13 +370,13 @@ And if you have multiple burners on your stove, then it makes even more sense to
 Well, computers kind of work the same way. It used to be that computers only had one "burner" (called a "single core" processor) available but now they have many more at their disposal ("multi-core" processors). The purpose of this is to do as many things as possible at the same time and allow the computer to bounce between tasks as needed.
 
 ---
-### 5. Network Reuqests are Asynchronous 
+### 5. Network Requests are Asynchronous 
 
-Networks can be unreliable, especially on a mobile device. And even when the network connection is good there's still a non-trivial amount of time needed for content, especially images and video, to load. Though, while that loading takes place your phone is still working, doing hundreds of other things. Though when the image or video finally does load, it appears on screen and you continue your browsing. In other words, thanks to concurrency your phone continue to add things to its burners while one of them waits for the "water" to boil. 
+Networks can be unreliable, especially on a mobile device. And even when the network connection is good there's still a non-trivial amount of time needed for content, especially images and video, to load. Though, while that loading takes place your phone is still working, doing hundreds of other things. Though when the image or video finally does load, it appears on screen and you continue your browsing. Thanks to (in part) concurrency, your phone continues to add things to its burners while one of them waits for the "water" to boil. 
 
 More specifically, when we talk about concurrency in networking requests, it’s usually in the realm of **asynchronous** requests. An asynchronous request is similar to concurrency in that you start it, go do something else for a little bit, and then you get alerted when it is finished. In a kitchen, you may ask your sous chef to go prep some onions for your pasta sauce while you do something else. Then once they finish chopping, you get the chopped onions back. You don’t know exactly how long this is going to take the chef; you just know you need the onions and you can’t stop everything else you’re doing while you wait for them.
  
-Concurrency is a complicated topic, but Objective C and Swift make great strides towards you not having to worry about it too much. But, making network requests are always going to be done asynchronously because you can't stop other things your app is doing in order to wait for an unknown amount of time for a request to finish. You don't cook in serial, a restarant doesn't cook only one dish at a time, and your app will never only do one thing at a time. 
+Concurrency is a complicated topic, but Objective C and Swift make great strides towards you not having to worry about it too much. But, making network requests are always going to be done asynchronously because you can't stop other things your app is doing in order to wait for an unknown amount of time for a request to finish. You don't cook in serial, a restaurant doesn't cook a single dish at a time, and your app will always be juggling multiple tasks. 
 
 #### The Network Cycle
 
@@ -389,29 +389,23 @@ At a very basic level, a network request follows the following steps:
 
 #### Callbacks
 
-A common pattern to "listen" for **network** responses is through the use of closures, referred to as **callbacks**. You already know that you can pass functions as a parameter to another function; that's in essence all callback are. The twist here is that your closure is intended to be executed once your network request receives its response. So, it "waits" for the response to be retrieved while your app continues executing other code. Not only this, but it's important to think about this: the "lifetime" of the closure you pass into a function in this manner can "outlive" the "lifetime" of the function it's being passed to. In other words, this **closure** enters a time machine where time stands still until the network request finishes. In the meanwhile, the rest of the function goes through each line of its code and finishes execution, unaware of the closure in the time machine. When the network call does finish, the **callback** gets the results and exits the time chamber. 
+As first covered in the "Closures In-depth" lesson, A common pattern to "listen" for **network** responses is through the use of closures, referred to as **callbacks**. 
+
+Closures in swift are first-class citizens which, among other things, Ymeans you can pass a closure as a parameter to another function. The twist here is that your closure is intended to be executed once your network request receives its response. So, it "waits" for the response to be retrieved while your app continues executing other code. The "lifetime" of the closure you pass into a function in this manner can "outlive" the "lifetime" of the function it's being passed to. In some ways, this **closure** enters a time machine where time stands still until the network request finishes. In the meanwhile, the rest of the function goes through each line of its code and finishes execution, unaware of the closure in the time machine. When the network call does finish, the **callback** gets the results and exits the time chamber. 
 
 Let's now look at how this affects our current project
 
 ---
-### 6. Updating `getInstaCats(apiEndpoint:) to use a callback
 
-The syntax is going to take a little getting used to, but in effect what we're doing is taking the previous return value (`[InstaCat]?`) and make it the single parameter in a closure that returns `Void`. 
+### 6. Updating `getInstaCats(from:)` to use a callback
+
+Update `getInstaCats(from:)` to:
 
 ```swift
-  // original
-  func getInstaCats(apiEndpoint: String) -> [InstaCat]? {
-  }
-  
-  // updating with no return
-  func getInstaCats(apiEndpoint: String) {
-  }
-
-  // with callback
-  // closure with single parameter of [InstaCat], returning nothing. function now returns nothing
-  // ****** just know for Swift 3, you need to include that `@escaping` keyword for callbacks *****
-  // ****** if you forget it, don't worry, Xcode will give you an error and ask to correct it for you (see screenshot) ******
-  func getInstaCats(apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
+  // You need to include that `@escaping` keyword for callbacks
+  // if you forget it, don't worry, Xcode will give you an error and ask to correct it for you
+  func getInstaCats(from apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
+    // other code
   }
 ```
 
@@ -421,53 +415,45 @@ The syntax is going to take a little getting used to, but in effect what we're d
 Now with the function updated to use a callback closure, we can finish:
 
 ```swift
-func getInstaCats(apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
+func getInstaCats(from apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
   if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
-  
-    // 1. URLSession/Configuration
+
     let session = URLSession(configuration: URLSessionConfiguration.default)
   
-    // 2. dataTaskWithURL
     session.dataTask(with: validInstaCatEndpoint) { (data: Data?, response: URLResponse?, error: Error?) in
     
-      // 3. check for errors right away
       if error != nil {
         print("Error encountered!: \(error!)")
       }
     
-      // 4. printing out the data
       if let validData: Data = data {
         print(validData)
-        
-          // 5. reuse our code to make some cats from Data
-          let allTheCats: [InstaCat]? = InstaCatFactory.manager.getInstaCats(from: validData)
-          
-          callback(allTheCats)
+
+        let allTheCats: [InstaCat]? = InstaCatParser().parseInstaCats(from: validData)
+        callback(allTheCats)
       }
     }
-    
-  // 4a. ALSO THIS!
+
   }.resume 
 }
 ```
 
-To verify all is working, back in `viewDidLoad`, comment out the code for getting our local `InstaCat` and add in: 
+To verify all is working, back in `viewDidLoad`, update our code to use the new function's trailing closure syntax: 
 
 ```swift
-        self.getInstaCats(apiEndpoint: instaCatEndpoint) { (instaCats: [InstaCat]?) in
-            if instaCats != nil {
-                for cat in instaCats! {
-                    print(cat.description)
-                    
-                    DispatchQueue.main.async {
-                       self.instaCats = instaCats!
-                       self.tableview.reloadData()
-                    }
-                }
+        self.getInstaCats(from: instaCatEndpoint) { (instaCats: [InstaCat]?) in
+          if instaCats != nil {
+            DispatchQueue.main.async {
+              self.instaCats = instaCats!
+              self.tableview.reloadData()
             }
+          }
         }
 ```
 ![Finished - exactly like NSURL lesson](http://imgur.com/hGB5kzam.png)
+
+#### Explanation
+
 
 
 #### Visualization of the callback closure lifecycle
