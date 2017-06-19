@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		14BF44BF1EF83408002DD0AB /* InstaCatParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF44BE1EF83408002DD0AB /* InstaCatParser.swift */; };
-		14BF44C11EF864C7002DD0AB /* InstaDog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF44C01EF864C7002DD0AB /* InstaDog.swift */; };
-		14BF44C31EF864E7002DD0AB /* InstaDogParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BF44C21EF864E7002DD0AB /* InstaDogParser.swift */; };
 		14CBA2DB1DADA28C003A33FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2DA1DADA28C003A33FD /* AppDelegate.swift */; };
 		14CBA2DD1DADA298003A33FD /* InstaCatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2DC1DADA298003A33FD /* InstaCatTableViewController.swift */; };
 		14CBA2E11DADA2AE003A33FD /* InstaCats.json in Resources */ = {isa = PBXBuildFile; fileRef = 14CBA2DF1DADA2AE003A33FD /* InstaCats.json */; };
@@ -19,8 +16,6 @@
 		14CBA2EC1DADA2E4003A33FD /* AC3_2_InstaCats_2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2EA1DADA2E4003A33FD /* AC3_2_InstaCats_2Tests.swift */; };
 		14CBA2EF1DADA2EE003A33FD /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 14CBA2EE1DADA2EE003A33FD /* test.json */; };
 		14CBA2F01DADA2EE003A33FD /* test.json in Resources */ = {isa = PBXBuildFile; fileRef = 14CBA2EE1DADA2EE003A33FD /* test.json */; };
-		14CBA2F21DADA69F003A33FD /* InstaCat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2F11DADA69F003A33FD /* InstaCat.swift */; };
-		14CBA2F31DADA69F003A33FD /* InstaCat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CBA2F11DADA69F003A33FD /* InstaCat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +29,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		14BF44BE1EF83408002DD0AB /* InstaCatParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstaCatParser.swift; path = "AC3.2-InstaCats-2/Model/InstaCatParser.swift"; sourceTree = SOURCE_ROOT; };
-		14BF44C01EF864C7002DD0AB /* InstaDog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstaDog.swift; path = "AC3.2-InstaCats-2/Model/InstaDog.swift"; sourceTree = SOURCE_ROOT; };
-		14BF44C21EF864E7002DD0AB /* InstaDogParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstaDogParser.swift; path = "AC3.2-InstaCats-2/Model/InstaDogParser.swift"; sourceTree = SOURCE_ROOT; };
 		14CBA2AE1DAC3AAB003A33FD /* AC3.2-InstaCats-2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AC3.2-InstaCats-2.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14CBA2C21DAC3AAC003A33FD /* AC3.2-InstaCats-2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AC3.2-InstaCats-2Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14CBA2DA1DADA28C003A33FD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = "AC3.2-InstaCats-2/AppDelegate.swift"; sourceTree = SOURCE_ROOT; };
@@ -49,7 +41,6 @@
 		14CBA2EA1DADA2E4003A33FD /* AC3_2_InstaCats_2Tests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AC3_2_InstaCats_2Tests.swift; path = "AC3.2-InstaCats-2Tests/AC3_2_InstaCats_2Tests.swift"; sourceTree = SOURCE_ROOT; };
 		14CBA2EB1DADA2E4003A33FD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "AC3.2-InstaCats-2Tests/Info.plist"; sourceTree = SOURCE_ROOT; };
 		14CBA2EE1DADA2EE003A33FD /* test.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = test.json; path = "AC3.2-InstaCats-2Tests/test.json"; sourceTree = SOURCE_ROOT; };
-		14CBA2F11DADA69F003A33FD /* InstaCat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstaCat.swift; path = "AC3.2-InstaCats-2/Model/InstaCat.swift"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,10 +127,6 @@
 		14CBA2F41DADA6AA003A33FD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				14CBA2F11DADA69F003A33FD /* InstaCat.swift */,
-				14BF44BE1EF83408002DD0AB /* InstaCatParser.swift */,
-				14BF44C01EF864C7002DD0AB /* InstaDog.swift */,
-				14BF44C21EF864E7002DD0AB /* InstaDogParser.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -251,12 +238,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14BF44BF1EF83408002DD0AB /* InstaCatParser.swift in Sources */,
-				14BF44C31EF864E7002DD0AB /* InstaDogParser.swift in Sources */,
 				14CBA2DD1DADA298003A33FD /* InstaCatTableViewController.swift in Sources */,
-				14CBA2F21DADA69F003A33FD /* InstaCat.swift in Sources */,
 				14CBA2DB1DADA28C003A33FD /* AppDelegate.swift in Sources */,
-				14BF44C11EF864C7002DD0AB /* InstaDog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,7 +247,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14CBA2F31DADA69F003A33FD /* InstaCat.swift in Sources */,
 				14CBA2EC1DADA2E4003A33FD /* AC3_2_InstaCats_2Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
