@@ -104,19 +104,6 @@ That's why when you plug in that previous URL into a browser, you're seeing exac
 
 > In fact, if you located the `InstaCat.json` file that lives on your computer and dragged it into your browser window, the address bar would change to the URL of the file's local address, and you'd see the same data. The url would look something like `file:///Users/<your_user>/<path>/<to>/AC3.2-NSURLSession/Resources/JSON/instacat.json`. Notice how it says `file://` instead of `http://`!
 
-
-
-
-> ***************************************************************************************************************
-To locate files in our application's bundle we used `Bundle.main` to query for the data at a **local** `URL`. 
-
-To locate a file on the internet, we need to use `URLSession` to query for the data at a **remote** `URL`. 
-> ***************************************************************************************************************
-
-
-
-
-
 ---
 ### 3. Getting `InstaCats` from the Web
 
@@ -274,11 +261,11 @@ Go ahead and call `getInstaCats(from:)` from `viewDidLoad` and make sure it prin
     }
 ```
 
-> Image of output
+![Instacat output](./Resources/Images/printing_instacats.png)
 
 Ok, let's now have our code return the [InstaCats] we've created just as we did in the (now) commented out code: `let instaCatsAll: [InstaCat] = InstaCatParser().parseCats(from: instaCatJSONFileName)`. Update `getInstaCats(from:)` to return `allTheCats`...
 
-![Non-void return error](http://imgur.com/9z1Zls4l.png)
+![Non-void return error](./Resources/Images/non_void_escaping_error.png)
 
 > error: `Unexpected non-void return value in void function`
 
@@ -289,7 +276,7 @@ We can't `return` from this block because `dataTask(with:completionHandler:)` ha
 We're going to need to make some changes to the function to have it function correctly. The simplest is to remove the `return` value and just do our UI updating work in the tableview controller directly.
 
 ```swift
-  func getInstaCats(from apiEndpoint: String) { // <<< returns Void
+  func getInstaCats(from apiEndpoint: String) { // implicitly returns Void
     if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
             
        // 1. URLSession/Configuration
@@ -399,6 +386,8 @@ Let's now look at how this affects our current project
 
 ### 6. Updating `getInstaCats(from:)` to use a callback
 
+![Escaping Closure Warning](./Resources/Images/escaping_error.png)
+
 Update `getInstaCats(from:)` to:
 
 ```swift
@@ -408,9 +397,6 @@ Update `getInstaCats(from:)` to:
     // other code
   }
 ```
-
-![Escaping Closure Warning](http://i.imgur.com/4x4UE8h.png)
-
 
 Now with the function updated to use a callback closure, we can finish:
 
@@ -450,7 +436,7 @@ To verify all is working, back in `viewDidLoad`, update our code to use the new 
           }
         }
 ```
-![Finished - exactly like NSURL lesson](http://imgur.com/hGB5kzam.png)
+![Finished - exactly like NSURL lesson](./Resources/Images/table_of_instacats.png)
 
 #### Explanation
 
@@ -458,7 +444,7 @@ Our newest addition to the `getInstaCats` function, our `@escaping` closure, ens
 
 
 #### Visualization of the callback closure lifecycle
-![Closure Lifecycle](http://imgur.com/1gZ1rGy.png)
+![Closure Lifecycle](./Resources/Images/escaping_explained.png)
 
 ---
 ### 5. Exercise
@@ -495,7 +481,7 @@ Just because I like cats (like, I *really* like them), doesn't meaan you should 
 
 Your final version should look like this: 
 
-![Final InstaDogs](http://imgur.com/MWPig7Cl.png)
+![Final InstaDogs](./Resources/Images/instadogs.png)
 
 #### Advanced
 
