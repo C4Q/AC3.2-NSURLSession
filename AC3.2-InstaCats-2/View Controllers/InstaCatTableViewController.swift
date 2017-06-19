@@ -18,14 +18,17 @@ class InstaCatTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // if let instaCatsAll: [InstaCat] = InstaCatParser().parseCats(from: instaCatJSONFileName) {
-        //     self.instaCats = instaCatsAll
-        // }
-        
-        _ = self.getInstaCats(from: instaCatEndpoint)
+        getInstaCats(from: instaCatEndpoint) { (cats: [InstaCat]?) in
+            if cats != nil {
+                self.instaCats = cats!
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
-    func getInstaCats(from apiEndpoint: String) -> [InstaCat]? {
+    func getInstaCats(from apiEndpoint: String, callback: @escaping ([InstaCat]?) -> Void) {
         if let validInstaCatEndpoint: URL = URL(string: apiEndpoint) {
             
             // 1. URLSession/Configuration
@@ -41,23 +44,14 @@ class InstaCatTableViewController: UITableViewController {
                 
                 // 4. printing out the data
                 if let validData: Data = data {
-                    print(validData) // not of much use other than to tell us that data does exist
-                    
-                    // 5. reuse our code to make some cats from Data
-                    let allTheCats: [InstaCat]? = InstaCatParser().parseInstaCats(from: validData)
-                    print("All the cats!! \(String(describing: allTheCats))")
-                    
-                    return allTheCats
-                }
-                
-                // 4a. ALSO THIS!
-                }.resume()
+                    print(validData)
+
+                let allTheCats: [InstaCat]? = InstaCatParser().parseInstaCats(from: validData)
+                callback(allTheCats)
+            }
+            }.resume() // Other: Easily forgotten, but we need to call resume to actually launch the task
         }
-        return nil
     }
-    
-    
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
